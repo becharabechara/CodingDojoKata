@@ -5848,23 +5848,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\TianhaoWu\\.nuget\\packages\\": {},
+    "C:\\Users\\BecharaBechara\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\TianhaoWu\\Source\\Repos\\VISEO_BankOCRKata\\BankOCRKata\\BankOCRKata.csproj",
+      "projectUniqueName": "C:\\Users\\BecharaBechara\\Source\\Repos\\CodingDojoKata\\BankOCR\\BankOCRKata\\BankOCRKata.csproj",
       "projectName": "BankOCRKata",
-      "projectPath": "C:\\Users\\TianhaoWu\\Source\\Repos\\VISEO_BankOCRKata\\BankOCRKata\\BankOCRKata.csproj",
-      "packagesPath": "C:\\Users\\TianhaoWu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\TianhaoWu\\Source\\Repos\\VISEO_BankOCRKata\\BankOCRKata\\obj\\",
+      "projectPath": "C:\\Users\\BecharaBechara\\Source\\Repos\\CodingDojoKata\\BankOCR\\BankOCRKata\\BankOCRKata.csproj",
+      "packagesPath": "C:\\Users\\BecharaBechara\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\BecharaBechara\\Source\\Repos\\CodingDojoKata\\BankOCR\\BankOCRKata\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\TianhaoWu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\BecharaBechara\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
