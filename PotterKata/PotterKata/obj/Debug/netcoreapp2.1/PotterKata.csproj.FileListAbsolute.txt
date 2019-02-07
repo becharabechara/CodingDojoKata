@@ -1,0 +1,14 @@
+C:\Users\BecharaBechara\Source\Repos\PotterKata\PotterKata\PotterKata\bin\Debug\netcoreapp2.1\PotterKata.deps.json
+C:\Users\BecharaBechara\Source\Repos\PotterKata\PotterKata\PotterKata\bin\Debug\netcoreapp2.1\PotterKata.dll
+C:\Users\BecharaBechara\Source\Repos\PotterKata\PotterKata\PotterKata\obj\Debug\netcoreapp2.1\PotterKata.csprojAssemblyReference.cache
+C:\Users\BecharaBechara\Source\Repos\PotterKata\PotterKata\PotterKata\obj\Debug\netcoreapp2.1\PotterKata.csproj.CoreCompileInputs.cache
+C:\Users\BecharaBechara\Source\Repos\PotterKata\PotterKata\PotterKata\obj\Debug\netcoreapp2.1\PotterKata.AssemblyInfoInputs.cache
+C:\Users\BecharaBechara\Source\Repos\PotterKata\PotterKata\PotterKata\obj\Debug\netcoreapp2.1\PotterKata.AssemblyInfo.cs
+C:\Users\BecharaBechara\Source\Repos\PotterKata\PotterKata\PotterKata\bin\Debug\netcoreapp2.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\BecharaBechara\Source\Repos\PotterKata\PotterKata\PotterKata\bin\Debug\netcoreapp2.1\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\BecharaBechara\Source\Repos\PotterKata\PotterKata\PotterKata\bin\Debug\netcoreapp2.1\xunit.runner.utility.netcoreapp10.dll
+C:\Users\BecharaBechara\Source\Repos\PotterKata\PotterKata\PotterKata\bin\Debug\netcoreapp2.1\PotterKata.runtimeconfig.json
+C:\Users\BecharaBechara\Source\Repos\PotterKata\PotterKata\PotterKata\bin\Debug\netcoreapp2.1\PotterKata.runtimeconfig.dev.json
+C:\Users\BecharaBechara\Source\Repos\PotterKata\PotterKata\PotterKata\bin\Debug\netcoreapp2.1\PotterKata.pdb
+C:\Users\BecharaBechara\Source\Repos\PotterKata\PotterKata\PotterKata\obj\Debug\netcoreapp2.1\PotterKata.dll
+C:\Users\BecharaBechara\Source\Repos\PotterKata\PotterKata\PotterKata\obj\Debug\netcoreapp2.1\PotterKata.pdb
