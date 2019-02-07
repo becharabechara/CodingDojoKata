@@ -1,0 +1,14 @@
+C:\Users\BecharaBechara\Source\Repos\Viseo_FooBarQix\FooBarQix\FooBarQix\bin\Debug\netcoreapp2.1\FooBarQix.deps.json
+C:\Users\BecharaBechara\Source\Repos\Viseo_FooBarQix\FooBarQix\FooBarQix\bin\Debug\netcoreapp2.1\FooBarQix.dll
+C:\Users\BecharaBechara\Source\Repos\Viseo_FooBarQix\FooBarQix\FooBarQix\obj\Debug\netcoreapp2.1\FooBarQix.csprojAssemblyReference.cache
+C:\Users\BecharaBechara\Source\Repos\Viseo_FooBarQix\FooBarQix\FooBarQix\obj\Debug\netcoreapp2.1\FooBarQix.csproj.CoreCompileInputs.cache
+C:\Users\BecharaBechara\Source\Repos\Viseo_FooBarQix\FooBarQix\FooBarQix\obj\Debug\netcoreapp2.1\FooBarQix.AssemblyInfoInputs.cache
+C:\Users\BecharaBechara\Source\Repos\Viseo_FooBarQix\FooBarQix\FooBarQix\obj\Debug\netcoreapp2.1\FooBarQix.AssemblyInfo.cs
+C:\Users\BecharaBechara\Source\Repos\Viseo_FooBarQix\FooBarQix\FooBarQix\bin\Debug\netcoreapp2.1\FooBarQix.runtimeconfig.json
+C:\Users\BecharaBechara\Source\Repos\Viseo_FooBarQix\FooBarQix\FooBarQix\bin\Debug\netcoreapp2.1\FooBarQix.runtimeconfig.dev.json
+C:\Users\BecharaBechara\Source\Repos\Viseo_FooBarQix\FooBarQix\FooBarQix\bin\Debug\netcoreapp2.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\BecharaBechara\Source\Repos\Viseo_FooBarQix\FooBarQix\FooBarQix\bin\Debug\netcoreapp2.1\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\BecharaBechara\Source\Repos\Viseo_FooBarQix\FooBarQix\FooBarQix\bin\Debug\netcoreapp2.1\xunit.runner.utility.netcoreapp10.dll
+C:\Users\BecharaBechara\Source\Repos\Viseo_FooBarQix\FooBarQix\FooBarQix\bin\Debug\netcoreapp2.1\FooBarQix.pdb
+C:\Users\BecharaBechara\Source\Repos\Viseo_FooBarQix\FooBarQix\FooBarQix\obj\Debug\netcoreapp2.1\FooBarQix.dll
+C:\Users\BecharaBechara\Source\Repos\Viseo_FooBarQix\FooBarQix\FooBarQix\obj\Debug\netcoreapp2.1\FooBarQix.pdb
