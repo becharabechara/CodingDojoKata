@@ -14,11 +14,13 @@ namespace PokerHands
             var res = PokerHandsManager.Compute(blackPlayerList, whitePlayerList);
             Assert.Equal(expectedWinnerWithDetails, res);
         }
+
         public static IEnumerable<object[]> GetData()
         {
             var allData = new List<object[]>
             {
-                new object[] {new List<string>{"2H","3D","5S","9C","KD"},new List<string>{"2C","3H","4S","8C","AH"},"White wins. - with high card: Ace"}
+                //new object[] {new List<string>{"2H","3D","5S","9C","KD"},new List<string>{"2C","3H","4S","8C","AH"},"White wins. - with high card: Ace"},
+                new object[] {new List<string>{"2H","3H","5H","4H","6H"},new List<string>{"2C","2C","2C","8H","8H"},"Black wins"}
             };
             return allData;
         }
