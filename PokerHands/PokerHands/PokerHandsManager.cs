@@ -1,28 +1,34 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace PokerHands
 {
-    public enum PointsGained: int
+    public enum PointsGained: long
     {
         StraightFlush = 1475789056, //14^8
-        FourOfAKind = 105413504,
-        FullHouse = 7529536,
-        Flush = 537824,
-        Straight =  38146,
-        ThreeOfAKind = 2744,
-        TwoPairs = 196,
-        Pair = 14,
-        HighCard = 1
+        FourOfAKind = 105413504,//14^7
+        FullHouse = 7529536,//14^6
+        Flush = 537824,//14^5
+        Straight =  38146,//14^4
+        ThreeOfAKind = 2744,//14^3
+        TwoPairs = 196,//14^2
+        Pair = 14,//14^1
+        HighCard = 1//14^0
     }
     public class PokerHandsManager
     {
         public static string Compute(List<string> player1, List<string> player2)
         {
-            int point1 = EvaluerDeck(Transform(player1));
-            int point2 = EvaluerDeck(Transform(player2));
-            var ret = point1 > point2 ? "Black wins" : "White wins";
+            var ret = string.Empty;
+            var player1Hand = string.Empty;
+            var player2Hand = string.Empty;
+            long point1 = EvaluateDeck(Transform(player1),out player1Hand);
+            long point2 = EvaluateDeck(Transform(player2),out player2Hand);
+            if (point1 > point2) ret = "Black wins. - with " + player1Hand;
+            else if (point1 == point2) ret = "Tie.";
+            else ret = "White wins. - with " + player2Hand;
             return ret;
         }
 
@@ -39,53 +45,83 @@ namespace PokerHands
             return cards;
         }
 
-        private static int EvaluerDeck(List<Card> deck)
+        private static long EvaluateDeck(List<Card> deck, out string playerHand)
         {
-            int res = 0;
-            int key = 0;
-            List<int> list_value = new List<int>();
-            List<char> list_suit = new List<char>();
-            foreach(var card in deck)
+            playerHand = string.Empty;
+            long res = 0;
+            Card key = new Card();
+            if (IsStraight(deck) && IsFlush(deck))
             {
-                list_value.Add(card.getValue());
-                list_suit.Add(card.Suit);
+                playerHand = "Straight Flush : " + deck.Max().Value + deck[0].Suit;
+                res = (long) PointsGained.StraightFlush * Int32.Parse(deck.Max().Value.ToString());
             }
-            if (IsStraight(list_value) && IsFlush(list_suit))
-                res = (int)PointsGained.StraightFlush * list_value.Max();
-            else if(IsFullHouse(list_value, out key))
-                res = (int)PointsGained.FullHouse * key;
+            else if (IsFourOfAKind(deck, out key))
+            {
+                playerHand = "Four Of A Kind : " + key.Value;
+                res = (long)PointsGained.FourOfAKind * key.Value;
+            }
+            else if (IsFullHouse(deck, out key))
+            {
+                playerHand = "Full House : " + key.Value;
+               res = (long)PointsGained.FullHouse * key.Value;
+            }
 
             return res;
         }
 
-        private static bool IsStraight(List<int> values)
+        private static bool IsStraight(List<Card> deck)
         {
-            values.Sort();
-            for (int i = 0; i < values.Count-1; i++)
-                if (values[i] != values[i+1] - 1)
+            deck.Sort();
+            for (int i = 0; i < deck.Count-1; i++)
+                if (deck[i].Value != deck[i+1].Value - 1)
                     return false;
             return true;
         }
 
-        private static bool IsFlush(List<char> suits) { return suits.Distinct().Count() == 1;}
-
-        private static bool IsFullHouse(List<int> values, out int key)
+        private static bool IsFlush(List<Card> deck)
         {
-            key = 0;
-            var distinct = values.Distinct().ToList();
+            deck.Sort();
+            for (int i = 0; i < deck.Count - 1; i++)
+                if (deck[i].Suit != deck[i + 1].Suit)
+                    return false;
+            return true;
+        }
+
+        private static bool IsFourOfAKind(List<Card> deck, out Card key)
+        {
+            key = new Card();
+            var distinct = deck.Distinct().ToList();
             if (distinct.Count() > 2) return false;
             var a = 0;
             var b = 0;
-            foreach (var v in values)
+            foreach (var v in deck)
                 if (v == distinct[0])
                     a++;
                 else
                     b++;
 
-            key = a == 3? a:b;
+            key = a == 4 ? distinct[0] : distinct[1];
 
-            return (a == 3 && b==2)||
-                (a == 2 && b == 3);
+            return (a == 4 && b == 1) || (a == 1 && b == 4);
+        }
+
+        private static bool IsFullHouse(List<Card> deck, out Card key)
+        {
+            key = new Card();
+            var distinct = deck.Distinct().ToList();
+            if (distinct.Count() > 2) return false;
+            var a = 0;
+            var b = 0;
+            foreach (var v in deck)
+                if (v == distinct[0])
+                    a++;
+                else
+                    b++;
+
+            key = a == 3 ? distinct[0] : distinct[1];
+
+            return (a == 3 && b == 2) ||
+                   (a == 2 && b == 3);
         }
 
     }

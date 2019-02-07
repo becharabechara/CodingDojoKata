@@ -8,21 +8,21 @@ namespace PokerHands
     public class PokerHandsTest
     {
         [Theory]
-        [MemberData(nameof(GetData))]
-        public void BlackWinsHighCard(List<string> blackPlayerList,List<string> whitePlayerList,string expectedWinnerWithDetails)
+        [MemberData(nameof(GetData),parameters:2)]
+        public void GeneralTests(List<string> blackPlayerList,List<string> whitePlayerList,string expectedWinnerWithDetails)
         {
             var res = PokerHandsManager.Compute(blackPlayerList, whitePlayerList);
             Assert.Equal(expectedWinnerWithDetails, res);
         }
 
-        public static IEnumerable<object[]> GetData()
+        public static IEnumerable<object[]> GetData(int number)
         {
             var allData = new List<object[]>
             {
-                //new object[] {new List<string>{"2H","3D","5S","9C","KD"},new List<string>{"2C","3H","4S","8C","AH"},"White wins. - with high card: Ace"},
-                new object[] {new List<string>{"2H","3H","5H","4H","6H"},new List<string>{"2C","2C","2C","8H","8H"},"Black wins"}
+                new object[] {new List<string>{ "2C", "3H", "4S", "8C", "AH"},new List<string>{ "AH", "AD", "AS", "AC", "5D" },"White wins. - with Four Of A Kind : A"},
+                new object[] {new List<string>{"2H","3H","5H","4H","6H"},new List<string>{"2C","2C","2C","8H","8H"},"Black wins. - with Straight Flush : 6H"}
             };
-            return allData;
+            return allData.Take(number);
         }
     }
 }
