@@ -1,0 +1,14 @@
+C:\Users\TianhaoWu\source\repos\BankOCRKata\BankOCRKata\bin\Debug\netcoreapp2.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\TianhaoWu\source\repos\BankOCRKata\BankOCRKata\bin\Debug\netcoreapp2.1\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\TianhaoWu\source\repos\BankOCRKata\BankOCRKata\bin\Debug\netcoreapp2.1\xunit.runner.utility.netcoreapp10.dll
+C:\Users\TianhaoWu\source\repos\BankOCRKata\BankOCRKata\bin\Debug\netcoreapp2.1\BankOCRKata.deps.json
+C:\Users\TianhaoWu\source\repos\BankOCRKata\BankOCRKata\bin\Debug\netcoreapp2.1\BankOCRKata.runtimeconfig.json
+C:\Users\TianhaoWu\source\repos\BankOCRKata\BankOCRKata\bin\Debug\netcoreapp2.1\BankOCRKata.runtimeconfig.dev.json
+C:\Users\TianhaoWu\source\repos\BankOCRKata\BankOCRKata\bin\Debug\netcoreapp2.1\BankOCRKata.dll
+C:\Users\TianhaoWu\source\repos\BankOCRKata\BankOCRKata\bin\Debug\netcoreapp2.1\BankOCRKata.pdb
+C:\Users\TianhaoWu\source\repos\BankOCRKata\BankOCRKata\obj\Debug\netcoreapp2.1\BankOCRKata.csproj.CoreCompileInputs.cache
+C:\Users\TianhaoWu\source\repos\BankOCRKata\BankOCRKata\obj\Debug\netcoreapp2.1\BankOCRKata.AssemblyInfoInputs.cache
+C:\Users\TianhaoWu\source\repos\BankOCRKata\BankOCRKata\obj\Debug\netcoreapp2.1\BankOCRKata.AssemblyInfo.cs
+C:\Users\TianhaoWu\source\repos\BankOCRKata\BankOCRKata\obj\Debug\netcoreapp2.1\BankOCRKata.dll
+C:\Users\TianhaoWu\source\repos\BankOCRKata\BankOCRKata\obj\Debug\netcoreapp2.1\BankOCRKata.pdb
+C:\Users\TianhaoWu\source\repos\BankOCRKata\BankOCRKata\obj\Debug\netcoreapp2.1\BankOCRKata.csprojAssemblyReference.cache
