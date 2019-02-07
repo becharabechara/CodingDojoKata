@@ -5860,11 +5860,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\BecharaBechara\\Source\\Repos\\Viseo_FooBarQix\\FooBarQix\\FooBarQix\\FooBarQix.csproj",
+      "projectUniqueName": "C:\\Users\\BecharaBechara\\Source\\Repos\\CodingDojoKata\\FooBarQix\\FooBarQix\\FooBarQix.csproj",
       "projectName": "FooBarQix",
-      "projectPath": "C:\\Users\\BecharaBechara\\Source\\Repos\\Viseo_FooBarQix\\FooBarQix\\FooBarQix\\FooBarQix.csproj",
+      "projectPath": "C:\\Users\\BecharaBechara\\Source\\Repos\\CodingDojoKata\\FooBarQix\\FooBarQix\\FooBarQix.csproj",
       "packagesPath": "C:\\Users\\BecharaBechara\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\BecharaBechara\\Source\\Repos\\Viseo_FooBarQix\\FooBarQix\\FooBarQix\\obj\\",
+      "outputPath": "C:\\Users\\BecharaBechara\\Source\\Repos\\CodingDojoKata\\FooBarQix\\FooBarQix\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
