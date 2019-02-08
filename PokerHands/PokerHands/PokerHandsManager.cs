@@ -7,14 +7,13 @@ namespace PokerHands
 {
     public enum PointsGained : long
     {
-        StraightFlush = 1475789056, //14^8
-        FourOfAKind = 105413504,//14^7
-        FullHouse = 7529536,//14^6
-        Flush = 537824,//14^5
-        Straight = 38146,//14^4
-        ThreeOfAKind = 2744,//14^3
-        TwoPairs = 196,//14^2
-        Pair = 14,//14^1
+        StraightFlush = 2562890625, //15^8
+        FourOfAKind = 170859375,//15^7
+        FullHouse = 11390625,//15^6
+        Flush = 759375,//15^5
+        Straight = 50625,//15^4
+        ThreeOfAKind = 3375,//15^3
+        Pair = 15,//15^1
         HighCard = 1//14^0
     }
     public class PokerHandsManager
@@ -49,37 +48,69 @@ namespace PokerHands
         {
             playerHand = string.Empty;
             long res = 0;
-            Card key = new Card();
+            Card key;
+            List<Card> keys = new List<Card>();
             if (IsStraight(deck) && IsFlush(deck))
             {
-                playerHand = "Straight Flush : " + deck.Max().Value.ToString() + deck[0].Suit;
+                playerHand = "Straight Flush : " + deck.Max().Value + deck[0].Suit;
                 res = (long)PointsGained.StraightFlush * deck.Max().getValue();
             }
-            else if (IsFourOfAKind(deck, out key))
+            else if (IsNOfAKind(4, deck, out keys))
             {
-                playerHand = "Four Of A Kind : " + key.Value.ToString();
-                res = (long)PointsGained.FourOfAKind * key.getValue();
+                playerHand = "Four Of A Kind : " + keys[0].Value;
+                res = (long)PointsGained.FourOfAKind * keys[0].getValue();
             }
             else if (IsFullHouse(deck, out key))
             {
-                playerHand = "Full House : " + key.Value.ToString();
+                playerHand = "Full House : " + key.Value;
                 res = (long)PointsGained.FullHouse * key.getValue();
             }
             else if (IsFlush(deck))
             {
-                playerHand = "Flush : " + deck.Max().Value.ToString() + deck[0].Suit;
+                playerHand = "Flush : " + deck.Max().Value + deck[0].Suit;
                 res = (long)PointsGained.Flush * deck.Max().getValue();
             }
             else if (IsStraight(deck))
             {
-                playerHand = "Straight : " + deck.Max().Value.ToString() + deck[0].Suit;
+                playerHand = "Straight : " + deck.Max().Value;
                 res = (long)PointsGained.Straight * deck.Max().getValue();
             }
-            else if (IsThreeOfAKind(deck,out key))
+            else if (IsNOfAKind(3, deck, out keys))
             {
-                playerHand = "Three Of A Kind : " + key.Value.ToString();
-                res = (long)PointsGained.ThreeOfAKind * key.getValue();
+                playerHand = "Three Of A Kind : " + keys[0].Value;
+                res = (long)PointsGained.ThreeOfAKind * keys[0].getValue();
             }
+            else if (IsTwoPairs(deck, out keys))
+            {
+                playerHand = "Two Pairs : " + "Pair1 of " + keys[0].Value
+                    + "Pair2 of " + keys[1].Value 
+                    + " " + keys[2].Value;
+                res = (long)PointsGained.Pair * keys[0].getValue()
+                    + (long)PointsGained.Pair * keys[1].getValue()
+                    + (long)PointsGained.HighCard * keys[2].getValue();
+            }
+            else if (IsNOfAKind(2, deck, out keys))
+            {
+                playerHand = "Pair : " + keys[0].Value
+                    + " " + keys[1].Value
+                    + " " + keys[2].Value
+                    + " " + keys[3].Value;
+                res = (long)PointsGained.Pair * keys[0].getValue()
+                    + (long)PointsGained.HighCard * keys[1].getValue()
+                    + (long)PointsGained.HighCard * keys[2].getValue()
+                    + (long)PointsGained.HighCard * keys[3].getValue();
+            }
+            //else
+            //{
+            //    playerHand = "High Card : " + keys[0].Value
+            //        + " " + keys[1].Value
+            //        + " " + keys[2].Value
+            //        + " " + keys[3].Value;
+            //    res = (long)PointsGained.Pair * keys[0].getValue()
+            //        + (long)PointsGained.HighCard * keys[1].getValue()
+            //        + (long)PointsGained.HighCard * keys[2].getValue()
+            //        + (long)PointsGained.HighCard * keys[3].getValue();
+            //}
             return res;
         }
 
@@ -101,23 +132,66 @@ namespace PokerHands
             return true;
         }
 
-        private static bool IsFourOfAKind(List<Card> deck, out Card key)
+        private static bool IsTwoPairs(List<Card> deck, out List<Card> keys)
         {
-            key = new Card();
+            int index1 = 0, index2=0;
+            keys = new List<Card>();
             var distinct = deck.Distinct().ToList();
-            if (distinct.Count() > 2) return false;
-            var a = 0;
-            var b = 0;
+            if (distinct.Count() > 3) return false;
+            int[] count = new int[3];
             foreach (var v in deck)
-                if (v == distinct[0])
-                    a++;
-                else
-                    b++;
+                for (var i = 0; i < 3; i++)
+                    if (distinct[i] == v)
+                    {
+                        count[i]++;
+                        if (count[i] == 2)
+                            keys.Add(distinct[i]);
+                    }
+            keys.Sort();
+            keys.Reverse();
+            keys.Add(distinct[count.ToList().IndexOf(1)]);
 
-            key = a == 4 ? distinct[0] : distinct[1];
-
-            return (a == 4 && b == 1) || (a == 1 && b == 4);
+            return count.ToList().FindAll(x => x==2).Count()==2;
         }
+
+        private static bool IsNOfAKind(int n, List<Card> deck, out List<Card> keys)
+        {
+            keys = new List<Card>();
+            var distinct = deck.Distinct().ToList();
+            if (distinct.Count() > (6 - n)) return false;
+            int[] count = new int[6 - n];
+            foreach (var v in deck)
+                for (var i = 0; i < 6 - n; i++)
+                    if (distinct[i] == v)
+                        count[i]++;
+
+            int maxIndex = count.ToList().IndexOf(count.Max());
+            keys.Add(distinct[maxIndex]);
+            if (n == 2)
+                foreach (var i in distinct)
+                    if (i != keys[0])
+                        keys.Add(i);
+
+            return count.Max()==n;
+        }
+
+        //private static bool IsFourOfAKind(List<Card> deck, out Card key)
+        //{
+        //    key = new Card();
+        //    var distinct = deck.Distinct().ToList();
+        //    if (distinct.Count() > 2) return false;
+        //    var a = 0;
+        //    var b = 0;
+        //    foreach (var v in deck)
+        //        if (v == distinct[0])
+        //            a++;
+        //        else
+        //            b++;
+
+        //    key = a == 4 ? distinct[0] : distinct[1];
+
+        //    return (a == 4 && b == 1) || (a == 1 && b == 4);
+        //}
 
         private static bool IsFullHouse(List<Card> deck, out Card key)
         {
@@ -138,28 +212,30 @@ namespace PokerHands
                    (a == 2 && b == 3);
         }
 
-        private static bool IsThreeOfAKind(List<Card> deck, out Card key)
-        {
-            key = new Card();
-            var distinct = deck.Distinct().ToList();
-            if (distinct.Count() > 3) return false;
-            var a = 0;
-            var b = 0;
-            var c = 0;
-            foreach (var v in deck)
-                if (v == distinct[0])
-                    a++;
-                else if (v == distinct[1])
-                    b++;
-                else
-                    c++;
+        //private static bool IsThreeOfAKind(List<Card> deck, out Card key)
+        //{
+        //    key = new Card();
+        //    var distinct = deck.Distinct().ToList();
+        //    if (distinct.Count() > 3) return false;
+        //    var a = 0;
+        //    var b = 0;
+        //    var c = 0;
+        //    foreach (var v in deck)
+        //        if (v == distinct[0])
+        //            a++;
+        //        else if (v == distinct[1])
+        //            b++;
+        //        else
+        //            c++;
 
-            key = (a == 3 && b == 1 && c == 1) ? distinct[0]
-                : (a == 1 && b == 3 && c == 1) ? distinct[1]
-                : distinct[2];
+        //    key = (a == 3 && b == 1 && c == 1) ? distinct[0]
+        //        : (a == 1 && b == 3 && c == 1) ? distinct[1]
+        //        : distinct[2];
 
-            return ((a == 3 && b == 1 && c == 1) || (a == 1 && b == 3 && c == 1) || (a == 1 && b == 1 && c == 3));
-        }
+        //    return ((a == 3 && b == 1 && c == 1) || (a == 1 && b == 3 && c == 1) || (a == 1 && b == 1 && c == 3));
+        //}
+
+
 
     }
 }
