@@ -17,7 +17,21 @@ namespace TexasHoldem
     }
     public class TexasHoldemManager
     {
-        private static List<Card> Transform(List<string> player)
+        private static List<int[]> comboFiveOfSeven = new List<int[]>();
+
+        private static List<List<Card>> Transform(string input)
+        {
+            List<List<Card>> ret = new List<List<Card>>();
+            string[] arrString = input.Split("\n");
+            foreach (var strPlayer in arrString)
+            {
+                List<string> player = strPlayer.Split(' ').ToList();
+                ret.Add(TransformPlayer(player));
+            }
+            return ret;
+        }
+
+        private static List<Card> TransformPlayer(List<string> player)
         {
             List<Card> cards = new List<Card>();
             foreach (var str in player)
@@ -28,6 +42,23 @@ namespace TexasHoldem
                 cards.Add(c);
             }
             return cards;
+        }
+
+        private static void SortBySuit(ref List<Card> input)
+        {
+            Card tmp = new Card();
+            for (int i = 0; i < input.Count; i++)
+            {
+                for (int j = 0; j < input.Count-1; j++)
+                {
+                    if(input[j].Value == input[j + 1].Value && input[j].Suit > input[j+1].Suit)
+                    {
+                        tmp = input[j + 1];
+                        input[j + 1] = input[j];
+                        input[j] = tmp;
+                    }
+                }
+            }
         }
 
         private static bool IsStraight(List<Card> deck)
@@ -111,46 +142,54 @@ namespace TexasHoldem
 
         private static long EvaluateDeck(List<Card> deck, out string playerHand)
         {
+            var temp = deck;
+            temp.Sort();
+            SortBySuit(ref temp);
+            SortBySuit(ref deck);
             playerHand = string.Empty;
+            foreach (var t in temp)
+            {
+                playerHand += t.ToString() + " ";
+            }
             long res = 0;
             Card key;
             List<Card> keys = new List<Card>();
             if (IsStraight(deck) && IsFlush(deck))
             {
-                playerHand = "Straight Flush : " + deck.Max().Value + deck[0].Suit;
+                playerHand += "Straight Flush : " + deck.Max().Value + deck[0].Suit;
                 res = (long)PointsGained.StraightFlush * deck.Max().getValue();
             }
             else if (IsNOfAKind(4, deck, out keys))
             {
-                playerHand = "Four Of A Kind : " + keys[0].Value;
+                playerHand += "Four Of A Kind : " + keys[0].Value;
                 res = (long)PointsGained.FourOfAKind * keys[0].getValue()
                     + (long)PointsGained.HighCard * keys[1].getValue();
             }
             else if (IsFullHouse(deck, out key))
             {
-                playerHand = "Full House : " + key.Value;
+                playerHand += "Full House : " + key.Value;
                 res = (long)PointsGained.FullHouse * key.getValue();
             }
             else if (IsFlush(deck))
             {
-                playerHand = "Flush : " + deck.Max().Value + deck[0].Suit;
+                playerHand += "Flush : " + deck.Max().Value + deck[0].Suit;
                 res = (long)PointsGained.Flush * deck.Max().getValue();
             }
             else if (IsStraight(deck))
             {
-                playerHand = "Straight : " + deck.Max().Value;
+                playerHand += "Straight : " + deck.Max().Value;
                 res = (long)PointsGained.Straight * deck.Max().getValue();
             }
             else if (IsNOfAKind(3, deck, out keys))
             {
-                playerHand = "Three Of A Kind : " + keys[0].Value;
+                playerHand += "Three Of A Kind : " + keys[0].Value;
                 res = (long)PointsGained.ThreeOfAKind * keys[0].getValue()
                     + (long)PointsGained.HighCard * keys[1].getValue()
                     + (long)PointsGained.HighCard * keys[2].getValue();
             }
             else if (IsTwoPairs(deck, out keys))
             {
-                playerHand = "Two Pairs : " + "Pair1 of " + keys[0].Value
+                playerHand += "Two Pairs : " + "Pair1 of " + keys[0].Value
                     + ", Pair2 of " + keys[1].Value
                     + ", " + keys[2].Value;
                 res = (long)PointsGained.Pair * keys[0].getValue()
@@ -159,7 +198,7 @@ namespace TexasHoldem
             }
             else if (IsNOfAKind(2, deck, out keys))
             {
-                playerHand = "Pair : " + keys[0].Value
+                playerHand += "Pair : " + keys[0].Value
                     + ", " + keys[1].Value
                     + ", " + keys[2].Value
                     + ", " + keys[3].Value;
@@ -172,7 +211,7 @@ namespace TexasHoldem
             {
                 deck.Sort();
                 deck.Reverse();
-                playerHand = "High Card : " + deck[0].Value
+                playerHand += "High Card : " + deck[0].Value
                     + ", " + deck[1].Value
                     + ", " + deck[2].Value
                     + ", " + deck[3].Value
@@ -186,9 +225,83 @@ namespace TexasHoldem
             return res;
         }
 
-        public static object Compute(string input)
+        public static string Compute(string input)
         {
-            throw new NotImplementedException();
+            foreach (int[] c in FindCombinations(5, 7))
+                comboFiveOfSeven.Add((int[])c.Clone());
+
+            string ret = String.Empty;
+            string[] arrString = input.Split("\n");
+            var listPlayers = Transform(input);
+            var points = new long[listPlayers.Count()];
+            string[] playerHands = new string[listPlayers.Count()]; ;
+            for (var i = 0; i < listPlayers.Count(); i++)
+            {
+                var player = listPlayers[i];
+                if (player.Count() == 7)
+                    points[i] = GetTheMaxPoint(player, out playerHands[i]);
+                else
+                    playerHands[i] = arrString[i];
+            }
+            for (var i = 0; i < listPlayers.Count(); i++)
+            {
+                if (points[i] == points.Max())
+                    playerHands[i] += " (Winner)";
+                if (i < listPlayers.Count - 1)
+                    playerHands[i] += "\n";
+            }
+            return String.Join(String.Empty, playerHands.ToArray());
+        }
+
+        private static long GetTheMaxPoint(List<Card> player, out string playerHand)
+        {
+            playerHand = String.Empty;
+            string maxHand = String.Empty;
+            long max = 0L;
+            //var listCombo = FindCombinations(5, 7);
+            foreach (var i in comboFiveOfSeven)
+            {
+                var deck = new List<Card>();
+                foreach (var index in i)
+                    deck.Add(player[index]);
+                var note = EvaluateDeck(deck, out playerHand);
+                if (max < note)
+                {
+                    max = note;
+                    maxHand = GetUnusedCards(deck, player) + playerHand;
+                }
+            }
+            playerHand = maxHand;
+            return max;
+        }
+
+        private static string GetUnusedCards(List<Card> combo, List<Card> player)
+        {
+            List<string> strCombo = combo.Select(x => x.ToString()).ToList();
+            var ret = string.Empty;
+            foreach (var card in player)
+                if (!strCombo.Contains(card.ToString()))
+                    ret += card.ToString() + " ";
+            return ret;
+        }
+
+        public static IEnumerable<int[]> FindCombosRec(int[] buffer, int done, int begin, int end)
+        {
+            for (int i = begin; i < end; i++)
+            {
+                buffer[done] = i;
+
+                if (done == buffer.Length - 1)
+                    yield return buffer;
+                else
+                    foreach (int[] child in FindCombosRec(buffer, done + 1, i + 1, end))
+                        yield return child;
+            }
+        }
+
+        public static IEnumerable<int[]> FindCombinations(int m, int n)
+        {
+            return FindCombosRec(new int[m], 0, 0, n);
         }
     }
 }
