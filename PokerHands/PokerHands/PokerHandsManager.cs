@@ -58,7 +58,8 @@ namespace PokerHands
             else if (IsNOfAKind(4, deck, out keys))
             {
                 playerHand = "Four Of A Kind : " + keys[0].Value;
-                res = (long)PointsGained.FourOfAKind * keys[0].getValue();
+                res = (long)PointsGained.FourOfAKind * keys[0].getValue()
+                    + (long)PointsGained.HighCard * keys[1].getValue();
             }
             else if (IsFullHouse(deck, out key))
             {
@@ -78,13 +79,15 @@ namespace PokerHands
             else if (IsNOfAKind(3, deck, out keys))
             {
                 playerHand = "Three Of A Kind : " + keys[0].Value;
-                res = (long)PointsGained.ThreeOfAKind * keys[0].getValue();
+                res = (long)PointsGained.ThreeOfAKind * keys[0].getValue()
+                    + (long)PointsGained.HighCard * keys[1].getValue()
+                    + (long)PointsGained.HighCard * keys[2].getValue();
             }
             else if (IsTwoPairs(deck, out keys))
             {
                 playerHand = "Two Pairs : " + "Pair1 of " + keys[0].Value
-                    + "Pair2 of " + keys[1].Value 
-                    + " " + keys[2].Value;
+                    + ", Pair2 of " + keys[1].Value
+                    + ", " + keys[2].Value;
                 res = (long)PointsGained.Pair * keys[0].getValue()
                     + (long)PointsGained.Pair * keys[1].getValue()
                     + (long)PointsGained.HighCard * keys[2].getValue();
@@ -92,25 +95,29 @@ namespace PokerHands
             else if (IsNOfAKind(2, deck, out keys))
             {
                 playerHand = "Pair : " + keys[0].Value
-                    + " " + keys[1].Value
-                    + " " + keys[2].Value
-                    + " " + keys[3].Value;
+                    + ", " + keys[1].Value
+                    + ", " + keys[2].Value
+                    + ", " + keys[3].Value;
                 res = (long)PointsGained.Pair * keys[0].getValue()
                     + (long)PointsGained.HighCard * keys[1].getValue()
                     + (long)PointsGained.HighCard * keys[2].getValue()
                     + (long)PointsGained.HighCard * keys[3].getValue();
             }
-            //else
-            //{
-            //    playerHand = "High Card : " + keys[0].Value
-            //        + " " + keys[1].Value
-            //        + " " + keys[2].Value
-            //        + " " + keys[3].Value;
-            //    res = (long)PointsGained.Pair * keys[0].getValue()
-            //        + (long)PointsGained.HighCard * keys[1].getValue()
-            //        + (long)PointsGained.HighCard * keys[2].getValue()
-            //        + (long)PointsGained.HighCard * keys[3].getValue();
-            //}
+            else
+            {
+                deck.Sort();
+                deck.Reverse();
+                playerHand = "High Card : " + deck[0].Value
+                    + ", " + deck[1].Value
+                    + ", " + deck[2].Value
+                    + ", " + deck[3].Value
+                    + ", " + deck[4].Value;
+                res = (long)PointsGained.HighCard * deck[0].getValue()
+                    + (long)PointsGained.HighCard * deck[1].getValue()
+                    + (long)PointsGained.HighCard * deck[2].getValue()
+                    + (long)PointsGained.HighCard * deck[3].getValue()
+                    + (long)PointsGained.HighCard * deck[4].getValue();
+            }
             return res;
         }
 
@@ -134,7 +141,7 @@ namespace PokerHands
 
         private static bool IsTwoPairs(List<Card> deck, out List<Card> keys)
         {
-            int index1 = 0, index2=0;
+            int index1 = 0, index2 = 0;
             keys = new List<Card>();
             var distinct = deck.Distinct().ToList();
             if (distinct.Count() > 3) return false;
@@ -151,7 +158,7 @@ namespace PokerHands
             keys.Reverse();
             keys.Add(distinct[count.ToList().IndexOf(1)]);
 
-            return count.ToList().FindAll(x => x==2).Count()==2;
+            return count.ToList().FindAll(x => x == 2).Count() == 2;
         }
 
         private static bool IsNOfAKind(int n, List<Card> deck, out List<Card> keys)
@@ -167,31 +174,13 @@ namespace PokerHands
 
             int maxIndex = count.ToList().IndexOf(count.Max());
             keys.Add(distinct[maxIndex]);
-            if (n == 2)
-                foreach (var i in distinct)
-                    if (i != keys[0])
-                        keys.Add(i);
-
-            return count.Max()==n;
+            foreach (var i in distinct)
+                if (i != keys[0])
+                    keys.Add(i);
+            keys.Sort(1,6-n-1,new Card());
+            keys.Reverse(1, 6 - n - 1);
+            return count.Max() == n;
         }
-
-        //private static bool IsFourOfAKind(List<Card> deck, out Card key)
-        //{
-        //    key = new Card();
-        //    var distinct = deck.Distinct().ToList();
-        //    if (distinct.Count() > 2) return false;
-        //    var a = 0;
-        //    var b = 0;
-        //    foreach (var v in deck)
-        //        if (v == distinct[0])
-        //            a++;
-        //        else
-        //            b++;
-
-        //    key = a == 4 ? distinct[0] : distinct[1];
-
-        //    return (a == 4 && b == 1) || (a == 1 && b == 4);
-        //}
 
         private static bool IsFullHouse(List<Card> deck, out Card key)
         {
@@ -211,31 +200,6 @@ namespace PokerHands
             return (a == 3 && b == 2) ||
                    (a == 2 && b == 3);
         }
-
-        //private static bool IsThreeOfAKind(List<Card> deck, out Card key)
-        //{
-        //    key = new Card();
-        //    var distinct = deck.Distinct().ToList();
-        //    if (distinct.Count() > 3) return false;
-        //    var a = 0;
-        //    var b = 0;
-        //    var c = 0;
-        //    foreach (var v in deck)
-        //        if (v == distinct[0])
-        //            a++;
-        //        else if (v == distinct[1])
-        //            b++;
-        //        else
-        //            c++;
-
-        //    key = (a == 3 && b == 1 && c == 1) ? distinct[0]
-        //        : (a == 1 && b == 3 && c == 1) ? distinct[1]
-        //        : distinct[2];
-
-        //    return ((a == 3 && b == 1 && c == 1) || (a == 1 && b == 3 && c == 1) || (a == 1 && b == 1 && c == 3));
-        //}
-
-
 
     }
 }

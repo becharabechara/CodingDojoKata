@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PokerHands
 {
-    public class Card : IComparable<Card>
+    public class Card : IComparable<Card>,IComparer<Card>
 
     {
         private static readonly Dictionary<char, int> dictValue = new Dictionary<char, int>()
@@ -92,6 +92,11 @@ namespace PokerHands
         public override int GetHashCode()
         {
             return HashCode.Combine(Value);
+        }
+
+        public int Compare(Card x, Card y)
+        {
+            return Comparison(x, y);
         }
     }
 }
