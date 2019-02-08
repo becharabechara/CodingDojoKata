@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace TexasHoldem
 {
@@ -17,6 +18,11 @@ namespace TexasHoldem
     }
     public class TexasHoldemManager
     {
+        private static readonly Dictionary<char, int> dictSuitPower =
+            new Dictionary<char, int>()
+            {
+                {'D',0 },{'C',1},{'H',2 },{'S',3}
+            };
         private static List<int[]> comboFiveOfSeven = new List<int[]>();
 
         private static List<List<Card>> Transform(string input)
@@ -46,16 +52,22 @@ namespace TexasHoldem
 
         private static void SortBySuit(ref List<Card> input)
         {
+            int s1 = 0, s2 = 0;
             Card tmp = new Card();
             for (int i = 0; i < input.Count; i++)
             {
-                for (int j = 0; j < input.Count-1; j++)
+                for (int j = 0; j < input.Count - 1; j++)
                 {
-                    if(input[j].Value == input[j + 1].Value && input[j].Suit > input[j+1].Suit)
+                    if (input[j].Value == input[j + 1].Value)
                     {
-                        tmp = input[j + 1];
-                        input[j + 1] = input[j];
-                        input[j] = tmp;
+                        dictSuitPower.TryGetValue(input[j].Suit, out s1);
+                        dictSuitPower.TryGetValue(input[j + 1].Suit, out s2);
+                        if(s1 > s2)
+                        {
+                            tmp = input[j + 1];
+                            input[j + 1] = input[j];
+                            input[j] = tmp;
+                        }
                     }
                 }
             }
@@ -258,7 +270,6 @@ namespace TexasHoldem
             playerHand = String.Empty;
             string maxHand = String.Empty;
             long max = 0L;
-            //var listCombo = FindCombinations(5, 7);
             foreach (var i in comboFiveOfSeven)
             {
                 var deck = new List<Card>();
