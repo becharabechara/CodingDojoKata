@@ -39,8 +39,8 @@ namespace Range
             Assert.Equal(expected, res);
         }
         [Theory]
-        [InlineData("[2,5) doesn’t overlap with [7,10)", true)]
-        [InlineData("[2,10) overlaps with [3,5)", true)]
+        [InlineData("[3,5) equals [3,5)", true)]
+       // [InlineData("[2,5) neq [3,10)", true)]
         public void EqualsTest(string input, bool expected)
         {
             var res = RangeManager.VerifyEquals(input);

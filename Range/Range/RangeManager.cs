@@ -49,9 +49,11 @@ namespace Range
                 : !listEl[0].Overlaps(listEl[1]);
         }
 
-        internal static bool VerifyEquals(string input)
+        public static bool VerifyEquals(string input)
         {
-            throw new NotImplementedException();
+            string[] strArr = input.Split(' ');
+            var listEl = TransformInput(input);
+            return listEl[0].Equals(listEl[1]);
         }
     }
 }

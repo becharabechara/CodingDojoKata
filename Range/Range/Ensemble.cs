@@ -16,7 +16,6 @@ namespace Range
             ret += "}";
             return ret;
         }
-
         public Ensemble(string input)
         {
             Elements = new List<int>();
@@ -36,10 +35,14 @@ namespace Range
                     return false;
             return true;
         }
-
         public bool Overlaps(Ensemble toCompare)
         {
             return Elements.Intersect(toCompare.Elements).Any();
+        }
+        public bool Equals(Ensemble elem)
+        {
+            //return Elements.SequenceEqual(elem.Elements);
+            return Elements.All(elem.Elements.Contains) && Elements.Count == elem.Elements.Count;
         }
     }
 }
