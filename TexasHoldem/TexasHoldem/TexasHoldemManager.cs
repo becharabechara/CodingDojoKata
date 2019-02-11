@@ -18,16 +18,16 @@ namespace TexasHoldem
     }
     public class TexasHoldemManager
     {
-        private static readonly Dictionary<char, int> dictSuitPower =
+        private static readonly Dictionary<char, int> DictSuitPower =
             new Dictionary<char, int>()
             {
                 {'D',0 },{'C',1},{'H',2 },{'S',3}
             };
-        private static List<int[]> comboFiveOfSeven = new List<int[]>();
+        private static readonly List<int[]> ComboFiveOfSeven = new List<int[]>();
 
         private static List<List<Card>> Transform(string input)
         {
-            List<List<Card>> ret = new List<List<Card>>();
+            var ret = new List<List<Card>>();
             string[] arrString = input.Split("\n");
             foreach (var strPlayer in arrString)
             {
@@ -60,8 +60,8 @@ namespace TexasHoldem
                 {
                     if (input[j].Value == input[j + 1].Value)
                     {
-                        dictSuitPower.TryGetValue(input[j].Suit, out s1);
-                        dictSuitPower.TryGetValue(input[j + 1].Suit, out s2);
+                        DictSuitPower.TryGetValue(input[j].Suit, out s1);
+                        DictSuitPower.TryGetValue(input[j + 1].Suit, out s2);
                         if(s1 > s2)
                         {
                             tmp = input[j + 1];
@@ -174,7 +174,7 @@ namespace TexasHoldem
             else if (IsNOfAKind(4, deck, out keys))
             {
                 playerHand += "Four Of A Kind : " + keys[0].Value;
-                res = (long)PointsGained.FourOfAKind * keys[0].getValue()
+                res = (long)PointsGained.FourOfAKind * GetValue(0)
                     + (long)PointsGained.HighCard * keys[1].getValue();
             }
             else if (IsFullHouse(deck, out key))
@@ -235,12 +235,13 @@ namespace TexasHoldem
                     + (long)PointsGained.HighCard * deck[4].getValue();
             }
             return res;
+            int GetValue(int index) => keys[index].getValue();
         }
 
         public static string Compute(string input)
         {
             foreach (int[] c in FindCombinations(5, 7))
-                comboFiveOfSeven.Add((int[])c.Clone());
+                ComboFiveOfSeven.Add((int[])c.Clone());
 
             string ret = String.Empty;
             string[] arrString = input.Split("\n");
@@ -270,7 +271,7 @@ namespace TexasHoldem
             playerHand = String.Empty;
             string maxHand = String.Empty;
             long max = 0L;
-            foreach (var i in comboFiveOfSeven)
+            foreach (var i in ComboFiveOfSeven)
             {
                 var deck = new List<Card>();
                 foreach (var index in i)

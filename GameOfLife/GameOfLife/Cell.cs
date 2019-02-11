@@ -7,32 +7,45 @@ namespace GameOfLife
 {
     public class Cell
     {
-        public Cell(int pX,int pY,int vV)
+        public Cell(int pX, int pY, int vV)
         {
             this.PositionX = pX;
             this.PositionY = pY;
             this.Value = vV;
         }
+
         public Cell(int pX, int pY)
         {
             this.PositionX = pX;
             this.PositionY = pY;
         }
-        public int PositionX { get; set; }
-        public int PositionY { get; set; }
-        public int Value { get; set; }
+
+        public int PositionX { get; }
+        public int PositionY { get; }
+        public int Value { get; }
+
+        protected bool Equals(Cell other)
+        {
+            return PositionX == other.PositionX && PositionY == other.PositionY && Value == other.Value;
+        }
+
         public override bool Equals(object obj)
         {
-            if ((obj == null) || !this.GetType().Equals(obj.GetType())) return false;
-            else
-            {
-                Cell c = (Cell) obj;
-                return (PositionX == c.PositionX && PositionY == c.PositionY);
-            }
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Cell)obj);
         }
+
         public override int GetHashCode()
         {
-            return (PositionX << 2) ^ PositionY;
+            unchecked
+            {
+                var hashCode = PositionX;
+                hashCode = (hashCode * 397) ^ PositionY;
+                hashCode = (hashCode * 397) ^ Value;
+                return hashCode;
+            }
         }
     }
 }
