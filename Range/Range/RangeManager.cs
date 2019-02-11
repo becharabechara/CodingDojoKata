@@ -28,7 +28,9 @@ namespace Range
 
         public static string GetEndPoints(string input)
         {
-            throw new NotImplementedException();
+            string[] strArr = input.Split(' ');
+            var listEl = TransformInput(input);
+            return "{" + listEl[0].Elements[0] + "," + listEl[0].Elements[listEl[0].Elements.Count - 1] + "}";
         }
 
         public static string GetAllPoints(string input)
@@ -36,6 +38,20 @@ namespace Range
             string[] strArr = input.Split(' ');
             var listEl = TransformInput(input);
             return listEl[0].ToString();
+        }
+
+        public static bool VerifyOverlapsRange(string input)
+        {
+            string[] strArr = input.Split(' ');
+            var listEl = TransformInput(input);
+            return strArr.Length == 4
+                ? listEl[0].Overlaps(listEl[1])
+                : !listEl[0].Overlaps(listEl[1]);
+        }
+
+        internal static bool VerifyEquals(string input)
+        {
+            throw new NotImplementedException();
         }
     }
 }

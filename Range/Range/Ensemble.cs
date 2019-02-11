@@ -31,6 +31,14 @@ namespace Range
         }
         public bool Contains(Ensemble toCompare)
         {
+            foreach (var i in toCompare.Elements)
+                if (!Elements.Contains(i))
+                    return false;
+            return true;
+        }
+
+        public bool Overlaps(Ensemble toCompare)
+        {
             return Elements.Intersect(toCompare.Elements).Any();
         }
     }
