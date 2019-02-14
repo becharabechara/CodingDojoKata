@@ -6,29 +6,29 @@ namespace TexasHoldem
     public class Card : IComparable<Card>, IComparer<Card>
 
     {
-        private static readonly Dictionary<char, int> dictValue = new Dictionary<char, int>()
+        private static readonly Dictionary<char, decimal> DictValue = new Dictionary<char, decimal>()
         {
-            {'2', 2},
-            {'3', 3},
-            {'4', 4},
-            {'5', 5},
-            {'6', 6},
-            {'7', 7},
-            {'8', 8},
-            {'9', 9},
-            {'T', 10},
-            {'J', 11},
-            {'Q', 12},
-            {'K', 13},
-            {'A', 14}
+            {'2', 1m},
+            {'3', 2m},
+            {'4', 3m},
+            {'5', 5m},
+            {'6', 8m},
+            {'7', 13m},
+            {'8', 30m},
+            {'9', 58m},
+            {'T', 112m},
+            {'J', 218m},
+            {'Q', 426m},
+            {'K', 827m},
+            {'A', 1613m}
         };
 
         public char Suit { get; set; }
         public char Value { get; set; }
 
-        public int getValue()
+        public decimal GetValue()
         {
-            return dictValue[Value];
+            return DictValue[Value];
         }
 
         public override string ToString()
@@ -79,10 +79,8 @@ namespace TexasHoldem
 
         public static int Comparison(Card card1, Card card2)
         {
-            int val1, val2;
-            dictValue.TryGetValue(card1.Value, out val1);
-            dictValue.TryGetValue(card2.Value, out val2);
-
+            DictValue.TryGetValue(card1.Value, out decimal val1);
+            DictValue.TryGetValue(card2.Value, out decimal val2);
             if (val1 < val2) return -1;
             else if (val1 == val2) return 0;
             else if (val1 > val2) return 1;
